@@ -1,53 +1,58 @@
 {% extends "dashboard/base.html" %}
 {% load crispy_forms_tags %}
-{% block title %}<title>PMT | Event Logs</title>{% endblock %}
+{% block title %}<title>PMT | View Processes</title>{% endblock %}
 {% block content %}
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Event Logs</h1>
+        <h1 class="h3 mb-0 text-gray-800">Process Discovery</h1>
     </div>
 
     <!-- Content Row -->
+
     <div class="row mb-5">
-        <a href="#upload_event_log" class="btn btn-success" data-toggle="modal">Upload Event Log</a>
+        <a href="#add_process_model" class="btn btn-success" data-toggle="modal">Add Process Model</a>
     </div>
 
-    {# Table presenting event logs #}
-    <table id="table_event_logs" class="display">
+    {# Table presenting process models #}
+    <table id="table_process_models" class="display">
         <thead>
         <tr>
             <th>ID</th>
             <th>Owner ID</th>
             <th>Name</th>
-            <th>File</th>
+            <th>Algorithm</th>
+            <th>Event Log</th>
+            <th>Process Model File</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        {% for log in event_logs%}
+         {% for model in process_models %}
         <tr>
-            <td>{{log.event_log_id}}</td>
-            <td>{{log.event_log_owner_id}}</td>
-            <td>{{log.event_log_name}}</td>
-            <td><a href="{{log.event_log_file.url}}" class="btn btn-primary btn-sm">Download</a>
-            </td>
-            <td>
-                <a href="#delete_event_log" class="btn btn-danger btn-sm" data-toggle="modal">Delete</a>
-                {# Delete Event log Modal #}
-                <div id="delete_event_log" class="modal fade">
+
+            <td>{{model.process_model_id}}</td>
+            <td>{{model.process_model_owner}}</td>
+            <td>{{model.process_model_name}}</td>
+            <td>{{model.process_model_algorithm}}</td>
+            <td>{{model.process_model_log_name}}</td>
+            <td><a href="{{model.process_model_file.url}}" class="btn btn-primary btn-sm">Download</a></td>
+             <td>
+                <a href="#delete_process_model" class="btn btn-danger btn-sm" data-toggle="modal">Delete</a>
+                {# Delete Process model Modal #}
+                <div id="delete_process_model" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             {# Modal Header #}
                             <div class="modal-header">
-                                <h4 class="modal-title">Delete an Event Log</h4>
+                                <h4 class="modal-title">Delete a Process Model</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             {# Modal footer #}
                             <div class="modal-footer">
-                                <form method="post" action="{% url 'delete_event_log' log.pk%}">
+                                <form method="post" action="{% url 'delete_process_model' model.pk%}">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
@@ -58,21 +63,22 @@
                     </div>
                 </div>
             </td>
-        </tr>
-        {% endfor %}
+            </tr>
+            {% endfor %}
+
         </tbody>
     </table>
 
-
 </div>
 <!-- /.container-fluid -->
+
 {# Upload Event log Modal #}
-<div id="upload_event_log" class="modal fade">
+<div id="add_process_model" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             {# Modal Header #}
             <div class="modal-header">
-                <h4 class="modal-title">Upload an Event Log</h4>
+                <h4 class="modal-title">Upload a process model</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
@@ -91,8 +97,6 @@
         </div>
     </div>
 </div>
-
-
 </div>
 <!-- End of Main Content -->
 

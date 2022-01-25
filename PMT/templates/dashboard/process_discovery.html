@@ -1,0 +1,97 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}<title>PMT | Process Discovery</title>{% endblock %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Process Discovery</h1>
+    </div>
+
+    <!-- Content Row -->
+
+    <div class="row mb-5">
+        <a href="#discover_process_model" class="btn btn-success mr-2" data-toggle="modal">Discover New Process
+            Model</a>
+        <a href="#render_process_model" class="btn btn-primary" data-toggle="modal">Render Existing Process Model</a>
+    </div>
+
+    {% if selected_process_model %}
+    {# Process Model Name #}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Process Model: {{selected_process_model.process_model_name}}</h1>
+    </div>
+    {# Process Model Image #}
+    <div class="row">
+        {# Have to change media/ #}
+        <img src="media/{{selected_process_model.process_model_image}}" width="1280" height="200">
+    </div>
+    {% endif %}
+
+</div>
+<!-- /.container-fluid -->
+{# Discover Process Modal Modal #}
+<div id="discover_process_model" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {# Modal Header #}
+            <div class="modal-header">
+                <h4 class="modal-title">Discover a process model</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            {# Modal body #}
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{discover_process_form|crispy}}
+            </div>
+            {# Modal footer #}
+            <div class="modal-footer">
+                <input type="submit" name="submitDiscover" id="submitDiscover" class="btn btn-success" value="Discover">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+
+{# Render Process Model Modal #}
+<div id="render_process_model" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {# Modal Header #}
+            <div class="modal-header">
+                <h4 class="modal-title">Render a process model</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            {# Modal body #}
+            <div class="modal-body">
+                <form method="post" action="process_discovery">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="process_models">Select a process model:</label>
+                        <select class="form-control" name="process_model_id" id="process_model_id">
+                            <option value="none"></option>
+                            {% for model in process_models %}
+                            <option value="{{model.process_model_id}}">{{model.process_model_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+            </div>
+            {# Modal footer #}
+            <div class="modal-footer">
+                <input type="submit" name="submitRender" id="submitRender" class="btn btn-success" value="Render">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End of Main Content -->
+
+{% endblock %}

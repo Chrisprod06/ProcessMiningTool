@@ -1,6 +1,8 @@
 from django.db import models
-from django.forms import ModelForm
 from django.conf import settings
+
+from uuid import uuid4
+import os
 
 
 # Create your models here.
@@ -40,6 +42,7 @@ class ProcessModel(models.Model):
     process_model_name = models.CharField(max_length=100, default="process_model_name")
     process_model_algorithm = models.CharField(max_length=100, choices=DISCOVERY_ALGORITHMS)
     process_model_file = models.FileField(upload_to="process_models")
+    process_model_image = models.ImageField(upload_to="exported_pngs", default="/PMT/media/produced_pngs/default.png")
 
     def __str__(self):
         return self.process_model_name

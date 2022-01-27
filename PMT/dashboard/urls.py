@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path("", views.index),
+    path("", views.index, name="index"),
 
     path("process_discovery", views.process_discovery, name="process_discovery"),
 

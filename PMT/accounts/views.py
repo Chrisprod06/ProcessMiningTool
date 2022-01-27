@@ -8,6 +8,10 @@ from django.contrib.auth.models import User, auth
 
 def register(request):
     """Function for handing user registration"""
+    redirect_register_url = "/accounts/register"
+    redirect_login_url = "/accounts/login"
+    template = "accounts/register.html"
+
     if request.method == "POST":
         first_name = request.POST["first_name"]
         last_name = request.POST["last_name"]
@@ -18,25 +22,29 @@ def register(request):
 
         # Check if password is same with repeat password, and email is unique then continue
         if password != repeat_password:
-            messages.info(request, "Passwords must match!")
-            return redirect('/accounts/register')
+            messages.error(request, "Passwords must match!")
+            return redirect(redirect_register_url)
         else:
             if User.objects.filter(email=email).exists():
-                messages.info(request, "Email already exists!")
-                return redirect('/accounts/register')
+                messages.error(request, "Email already exists!")
+                return redirect(redirect_register_url)
             else:
                 user = User.objects.create_user(username=username, password=password, email=email,
                                                 first_name=first_name,
                                                 last_name=last_name)
                 user.save()
-                messages.info(request, "Account created successfully!")
-                return redirect('/accounts/login')
+                messages.success(request, "Account created successfully!")
+                return redirect(redirect_login_url)
     else:
-        return render(request, "accounts/register.html")
+        return render(request, template)
 
 
 def login(request):
     """Function for handling user login"""
+    redirect_login_url = "/accounts/login"
+    redirect_login_success = "/"
+    template = "accounts/login.html"
+
     if request.method == "POST":
         email = request.POST["email"]
         password = request.POST["password"]
@@ -44,21 +52,24 @@ def login(request):
         user = auth.authenticate(username=email, password=password)
 
         if user is None:
-            messages.info(request, "Wrong credentials!Please try again.")
-            return redirect("/accounts/login")
+            messages.error(request, "Wrong credentials! Please try again.")
+            return redirect(redirect_login_url)
 
         else:
             auth.login(request, user)
-            return redirect("/")
+            messages.success(request, "Login successful!")
+            return redirect(redirect_login_success)
 
-    return render(request, "accounts/login.html")
+    return render(request, template)
 
 
 def forgot_password(request):
-    return render(request, "accounts/forgot_password.html")
+    template = "accounts/forgot_password.html"
+    return render(request, template)
 
 
 def logout(request):
     """Function for logging out the user"""
+    redirect_url = "/accounts/login"
     auth.logout(request)
-    return redirect("/accounts/login")
+    return redirect(redirect_url)

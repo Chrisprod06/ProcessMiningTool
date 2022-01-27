@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+from django.contrib.messages import constants as messages
 
 from pathlib import Path
 import os
@@ -26,6 +27,16 @@ SECRET_KEY = 'django-insecure-vs)kgfaatgyps1z4%93vru6ms0p34(=wjru$%i)okilxnkh#-3
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# Message tags for bootstrap
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger'
+}
 
 # Application definition
 

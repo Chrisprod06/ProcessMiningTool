@@ -36,7 +36,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'index'%}">
             <div class="sidebar-brand-text mx-3">Process Mining Tool</div>
         </a>
 
@@ -45,7 +45,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="{% url 'index'%}">
                 <i class="fas fa-home"></i>
                 <span>Home</span></a>
         </li>
@@ -60,7 +60,7 @@
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="event_logs">
+            <a class="nav-link" href="{% url 'event_logs'%}">
                 <i class="fas fa-file-alt"></i>
                 <span>Event Logs</span></a>
         </li>
@@ -82,8 +82,8 @@
             <div id="collapseProcessDiscovery" class="collapse" aria-labelledby="headingUtilities"
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="process_discovery">Discover a process</a>
-                    <a class="collapse-item" href="view_process_models">View process models</a>
+                    <a class="collapse-item" href="{% url 'process_discovery'%}">Discover a process</a>
+                    <a class="collapse-item" href="{% url 'view_process_models'%}">View process models</a>
                 </div>
             </div>
         </li>
@@ -191,6 +191,8 @@
 
             </nav>
             <!-- End of Topbar -->
+
+            {% include "includes/messages.html" %}
             {% block content %}
             {# content will go here #}
             {% endblock %}
@@ -198,7 +200,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Christophoros Prodromou | Stefanos Avraam</span>
                     </div>
                 </div>
             </footer>
@@ -228,8 +230,8 @@
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
+                    <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="accounts/logout">Logout</a>
                 </div>
             </div>
         </div>

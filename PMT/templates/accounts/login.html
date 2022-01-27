@@ -23,12 +23,12 @@
                                 <form class="user" action="login" method="post">
                                     {% csrf_token %}
                                     <div class="form-group">
-                                        <input type="email" class="form-control form-control-user" name="email"
+                                        <input type="email" class="form-control form-control-user required" name="email"
                                                id="exampleInputEmail" aria-describedby="emailHelp"
                                                placeholder="Enter Email Address...">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" name="password"
+                                        <input type="password" class="form-control form-control-user required" name="password"
                                                id="exampleInputPassword" placeholder="Password">
                                     </div>
                                     <div class="form-group">

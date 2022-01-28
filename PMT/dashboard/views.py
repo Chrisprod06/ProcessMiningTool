@@ -3,11 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
 
-from . import discovery_algorithms
+from . import discovery_algorithms, pm4py_statistics
 from .forms import EventLogForm, ProcessModelForm, DiscoverProcessModelForm
 from .models import EventLog, ProcessModel
-
-from .discovery_algorithms import petri_net_discovery
 
 
 @login_required(login_url="/accounts/login")
@@ -137,3 +135,35 @@ def delete_event_log(request, pk):
             event_log.delete()
             messages.success(request, "Event Log deleted successfully!")
     return redirect(redirect_page)
+
+
+@login_required(login_url="/accounts/login")
+def view_statistics(request):
+    """Function to view various statistics"""
+    logs = EventLog.objects.all()
+    template = "dashboard/view_statistics.html"
+    statistics_results = None
+    context = []
+
+
+    if request.method == "POST":
+        statistics_items = []
+        # Get input from form
+        selected_event_log = request.POST["event_log_id"]
+
+        # If statistic item is selected load it in a dictionary
+        # Then send the array to the function
+
+        if median_case_duration := request.POST["median_case_duration"].is_checked():
+            statistics_items.append(settings.MEDIAN_CASE_DURATION)
+
+        # Call function to calculate numeric statistics
+
+        statistics_results = pm4py_statistics.calculate_statistics_items(selected_event_log, statistics_items)
+
+    else:
+        pass
+    context["event_logs"] = logs
+    if statistics_results is not None:
+        context["statistics_results"] = statistics_results
+    return render(request, template, context)

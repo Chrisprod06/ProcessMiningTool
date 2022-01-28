@@ -16,7 +16,7 @@ from .models import EventLog
 
 # Process discovery algorithms
 
-# Alpha Miner
+# Petri net
 
 
 def petri_net_discovery(event_log_name, process_model_name, algorithm):

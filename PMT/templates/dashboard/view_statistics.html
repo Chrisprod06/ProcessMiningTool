@@ -1,0 +1,78 @@
+{% extends "dashboard/base.html" %}
+{% block title %}<title>PMT | Statistics</title>{% endblock %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Statistics</h1>
+    </div>
+
+     <!-- Content Row -->
+
+    <div class="row mb-5">
+        <a href="#calculate_statistics" class="btn btn-success" data-toggle="modal">Calculate Statistics</a>
+    </div>
+
+    <!-- Content Row -->
+
+    {% if selected_event_log %}
+    {# Event Log Name #}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Showing calculated statistics for event log: {{selected_event_log.event_log_name}}</h1>
+    </div>
+    {# List with numeric statistics #}
+    <div class="row">
+        {% if %}
+    </div>
+    {% endif %}
+
+
+    {# Select statistics to show #}
+    <div id="calculate_statistics" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {# Modal Header #}
+                <div class="modal-header">
+                    <h4 class="modal-title">Calculate statistics for an event log</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                {# Modal body #}
+                <div class="modal-body">
+                    <form method="post" action="view_statistics">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="event_log_id">Select an event log:</label>
+                            <select class="form-control" name="event_log_id" id="event_log_id">
+                                <option value="none"></option>
+                                {% if event_logs %}
+                                {% for event_log in event_logs %}
+                                <option value="{{event_log.event_log_id}}">{{event_log.event_log_name}}</option>
+                                {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+
+                        <div class = "form-group">
+                            <label for ="median_case_duration">Median Case Duration:</label>
+                            <input class = "form-check-inline" type="checkbox" name="median_case_duration" id="median_case_duration">
+                        </div>
+                </div>
+                {# Modal footer #}
+                <div class="modal-footer">
+                    <input type="submit" name="submit" id="submit" class="btn btn-success" value="Calculate">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+{% endblock %}

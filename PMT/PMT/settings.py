@@ -147,3 +147,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Algorithms
 ALPHA_MINER = "alpha_miner"
 INDUCTIVE_MINER = "inductive_miner"
+
+# Statistics items
+
+MEDIAN_CASE_DURATION = "median_case_duration"

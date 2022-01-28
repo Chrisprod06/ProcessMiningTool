@@ -17,7 +17,6 @@
             Model</a>
         <a href="#render_process_model" class="btn btn-primary" data-toggle="modal">Render Existing Process Model</a>
     </div>
-
     {% if selected_process_model %}
     {# Process Model Name #}
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -77,9 +76,11 @@
                         <label for="process_models">Select a process model:</label>
                         <select class="form-control" name="process_model_id" id="process_model_id">
                             <option value="none"></option>
+                            {% if process_models %}
                             {% for model in process_models %}
                             <option value="{{model.process_model_id}}">{{model.process_model_name}}</option>
                             {% endfor %}
+                            {% endif %}
                         </select>
                     </div>
             </div>

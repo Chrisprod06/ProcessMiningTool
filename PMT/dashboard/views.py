@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.conf import settings
 
 from . import discovery_algorithms
 from .forms import EventLogForm, ProcessModelForm, DiscoverProcessModelForm
 from .models import EventLog, ProcessModel
 
-from .discovery_algorithms import discovery_alpha_miner
+from .discovery_algorithms import petri_net_discovery
 
 
 @login_required(login_url="/accounts/login")
@@ -34,19 +35,20 @@ def process_discovery(request):
                 process_model_name = new_process_model.process_model_name
                 discovery_algorithm = new_process_model.process_model_algorithm
                 # Apply algorithm based on user selection and update model fields
-                if discovery_algorithm == "alpha_miner":
-                    if discovery_algorithms.discovery_alpha_miner(logfile, process_model_name):
+                if discovery_algorithm == settings.ALPHA_MINER:
+                    if discovery_algorithms.petri_net_discovery(logfile, process_model_name, settings.ALPHA_MINER):
                         messages.success(request, "Process Model discovered successfully!")
-                        new_process_model.process_model_file = "process_models/" + process_model_name + ".pnml"
-                        new_process_model.process_model_image = "exported_pngs/" + process_model_name + ".png"
                     else:
                         messages.error(request, "Something went wrong! Please try again.")
                         redirect(redirect_url)
-
-                elif discovery_algorithm == "inductive_miner":
-                    pass
-                elif discovery_algorithm == "heuristic_miner":
-                    pass
+                elif discovery_algorithm == settings.INDUCTIVE_MINER:
+                    if discovery_algorithms.petri_net_discovery(logfile, process_model_name, settings.INDUCTIVE_MINER):
+                        messages.success(request, "Process Model discovered successfully!")
+                    else:
+                        messages.error(request, "Something went wrong! Please try again.")
+                        redirect(redirect_url)
+                new_process_model.process_model_file = "process_models/" + process_model_name + ".pnml"
+                new_process_model.process_model_image = "exported_pngs/" + process_model_name + ".png"
                 # Save the process model
                 new_process_model.save()
                 discover_process_form.save_m2m()

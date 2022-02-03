@@ -5,3 +5,4 @@ sqlparse==0.4.2
 django-crispy-forms==1.13.0
 Pillow==9.0.0
 pm4py~=2.2.18
+black==21.12b0

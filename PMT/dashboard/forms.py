@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 
-
 from .models import EventLog, ProcessModel
+
 
 class EventLogForm(ModelForm):
     """Form used for handling event logs"""
@@ -24,7 +24,10 @@ class DiscoverProcessModelForm(ModelForm):
 
     class Meta:
         model = ProcessModel
-        fields = ["process_model_id", "process_model_owner", "process_model_log_name", "process_model_name",
-                  "process_model_algorithm"]
-
-
+        fields = [
+            "process_model_id",
+            "process_model_owner",
+            "process_model_log_name",
+            "process_model_name",
+            "process_model_algorithm",
+        ]

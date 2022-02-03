@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
-
+from django.shortcuts import redirect, render
 
 # Create your views here.
 
@@ -29,9 +28,13 @@ def register(request):
                 messages.error(request, "Email already exists!")
                 return redirect(redirect_register_url)
             else:
-                user = User.objects.create_user(username=username, password=password, email=email,
-                                                first_name=first_name,
-                                                last_name=last_name)
+                user = User.objects.create_user(
+                    username=username,
+                    password=password,
+                    email=email,
+                    first_name=first_name,
+                    last_name=last_name,
+                )
                 user.save()
                 messages.success(request, "Account created successfully!")
                 return redirect(redirect_login_url)

@@ -73,7 +73,7 @@
                 <form method="post" action="process_discovery">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="process_models">Select a process model:</label>
+                        <label for="process_model_id">Select a process model:</label>
                         <select class="form-control" name="process_model_id" id="process_model_id">
                             <option value="none"></option>
                             {% if process_models %}

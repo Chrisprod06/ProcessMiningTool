@@ -26,27 +26,62 @@
             </div>
             {# List with numeric statistics #}
             {% if statistics_results %}
-                {# Table presenting event logs #}
-                <table id="table_event_logs" class="display">
-                    <thead>
-                    <tr>
-                        <th>Number</th>
-                        <th>Name</th>
-                        <th>Result</th>
+                {% for key,value in statistics_results.items %}
+                    {# Present median case duration #}
+                    {% if key == "median_case_duration" %}
+                        <div class="row mb-3">
+                            <p>{{ key }}: {{ value }}</p>
+                        </div>
+                    {% endif %}
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for key,value in statistics_results.items %}
-                        <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ key }}</td>
-                            <td>{{ value }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                    {# Present case arrival average #}
+                    {% if key == "case_arrival_avg" %}
+                        <div class="row mb-3">
+                            <p>{{ key }}: {{ value }}</p>
+                        </div>
+                    {% endif %}
+
+                    {# Present case dispersion ratio #}
+                    {% if key == "case_dispersion_ratio" %}
+                        <div class="row mb-3">
+                            <p>{{ key }}: {{ value }}</p>
+                        </div>
+                    {% endif %}
+
+                    {# Present business hours #}
+                    {% if key == "business_hours" %}
+                        <div class="row mb-3">
+                            <p>{{ key }}: {{ value }}</p>
+                        </div>
+                    {% endif %}
+                    {# Present cycle time #}
+                    {% if key == "cycle_time" %}
+                        <div class="row mb-3">
+                            <p>{{ key }}: {{ value }}</p>
+                        </div>
+                    {% endif %}
+                    {# Present sojourn time #}
+                    {% if key == "sojourn_time" %}
+                        <div class="row mb-3">
+                            <p>{{ key }}: {{ value }}</p>
+                        </div>
+                    {% endif %}
+                    {# Present concurrent activities #}
+                    {% if key == "concurrent_activities" %}
+                        <div class="row mb-3">
+                            <p>{{ key }}: {{ value }}</p>
+                        </div>
+                    {% endif %}
+                    {# Present eventually follows graph #}
+                    {% if key == "eventually_follows_graph" %}
+                        <div class="row mb-3">
+                            <p>{{ key }}: {{ value }}</p>
+                        </div>
+                    {% endif %}
+                    {# Present distribution case duration graph #}
+                {% endfor %}
             {% endif %}
+
         {% endif %}
 
 
@@ -75,15 +110,64 @@
                                 </select>
                             </div>
 
+                            <p>General:</p>
+                            <hr>
                             <div class="form-group">
                                 <label for="median_case_duration">Median Case Duration:</label>
                                 <input class="form-check-inline" type="checkbox" name="median_case_duration"
                                        id="median_case_duration">
                             </div>
+                            <div class="form-group">
+                                <label for="case_arrival_avg">Case Arrival Average:</label>
+                                <input type="checkbox" class="form-check-inline" name="case_arrival_avg"
+                                       id="case_arrival_avg">
+                            </div>
+                            <div class="form-group">
+                                <label for="case_dispersion_ratio">Case Dispersion Ratio:</label>
+                                <input type="checkbox" class="form-check-inline" name="case_dispersion_ratio"
+                                       id="case_dispersion_ratio">
+                            </div>
+                            <div class="form-group">
+                                <label for="concurrent_activities">Concurrent Activities:</label>
+                                <input type="checkbox" class="form-check-inline" name="concurrent_activities"
+                                       id="concurrent_activities">
+                            </div>
+
+                            <p>Interval Event Logs only:</p>
+                            <hr>
+                            <div class="form-group">
+                                <label for="business_hours">Business Hours:</label>
+                                <input type="checkbox" class="form-check-inline" name="business_hours"
+                                       id="business_hours">
+                            </div>
+                            <div class="form-group">
+                                <label for="cycle_time">Cycle Time:</label>
+                                <input type="checkbox" class="form-check-inline" name="cycle_time"
+                                       id="cycle_time">
+                            </div>
+                            <div class="form-group">
+                                <label for="sojourn_time">Sojourn Time:</label>
+                                <input type="checkbox" class="form-check-inline" name="sojourn_time"
+                                       id="sojourn_time">
+                            </div>
+                            <p>Graphs:</p>
+                            <hr>
+                            <div class="form-group">
+                                <label for="eventually_follows_graph">Eventually Follows:</label>
+                                <input type="checkbox" class="form-check-inline" name="eventually_follows_graph"
+                                       id="eventually_follows_graph">
+                            </div>
+                            <div class="form-group">
+                                <label for="distribution_case_duration_graph">Distribution Case Duration:</label>
+                                <input type="checkbox" class="form-check-inline" name="distribution_case_duration_graph"
+                                       id="distribution_case_duration_graph">
+                            </div>
+
                     </div>
                     {# Modal footer #}
                     <div class="modal-footer">
-                        <input type="submit" name="submit" id="submit" class="btn btn-success" value="Calculate">
+                        <input type="submit" name="submit" id="submit" class="btn btn-success"
+                               value="Calculate">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                     </form>

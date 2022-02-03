@@ -146,3 +146,11 @@ INDUCTIVE_MINER = "inductive_miner"
 # Statistics items
 
 MEDIAN_CASE_DURATION = "median_case_duration"
+CASE_ARRIVAL_AVG = "case_arrival_avg"
+CASE_DISPERSION_RATIO = "case_dispersion_ratio"
+BUSINESS_HOURS = "business_hours"
+CYCLE_TIME = "cycle_time"
+SOJOURN_TIME = "sojourn_time"
+CONCURRENT_ACTIVITIES = "concurrent_activities"
+EVENTUALLY_FOLLOWS_GRAPH = "eventually_follows_graph"
+DISTRIBUTION_CASE_DURATION_GRAPH = "distribution_case_duration_graph"

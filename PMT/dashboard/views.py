@@ -178,6 +178,22 @@ def view_statistics(request):
 
         if "median_case_duration" in request.POST:
             statistics_items.append(settings.MEDIAN_CASE_DURATION)
+        if "case_arrival_avg" in request.POST:
+            statistics_items.append(settings.CASE_ARRIVAL_AVG)
+        if "case_dispersion_ratio" in request.POST:
+            statistics_items.append(settings.CASE_DISPERSION_RATIO)
+        if "business_hours" in request.POST:
+            statistics_items.append(settings.BUSINESS_HOURS)
+        if "cycle_time" in request.POST:
+            statistics_items.append(settings.CYCLE_TIME)
+        if "sojourn_time" in request.POST:
+            statistics_items.append(settings.SOJOURN_TIME)
+        if "concurrent_activities" in request.POST:
+            statistics_items.append(settings.CONCURRENT_ACTIVITIES)
+        if "eventually_follows_graph" in request.POST:
+            statistics_items.append(settings.EVENTUALLY_FOLLOWS_GRAPH)
+        if "distribution_case_duration_graph" in request.POST:
+            statistics_items.append(settings.DISTRIBUTION_CASE_DURATION_GRAPH)
 
         # Call function to calculate numeric statistics
 

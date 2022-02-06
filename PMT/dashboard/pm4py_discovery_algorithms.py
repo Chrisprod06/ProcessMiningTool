@@ -1,10 +1,8 @@
 # Data Handling libraries
 import pm4py
 from django.conf import settings
-
 # Alpha miner imports
 from pm4py.algo.discovery.alpha import algorithm as alpha_miner
-
 # Inductive mine imports
 from pm4py.algo.discovery.inductive import algorithm as inductive_miner
 from pm4py.objects.log.importer.xes import importer as xes_importer

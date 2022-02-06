@@ -3,8 +3,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from . import discovery_algorithms, pm4py_statistics
-from .forms import DiscoverProcessModelForm, EventLogForm, ProcessModelForm
+from . import (pm4py_conformance_checks, pm4py_discovery_algorithms,
+               pm4py_statistics)
+from .forms import (ConformanceCheckForm, DiscoverProcessModelForm,
+                    EventLogForm, ProcessModelForm)
 from .models import EventLog, ProcessModel
 
 
@@ -27,7 +29,7 @@ def process_discovery(request):
             request.POST
         )  # Get form model instance
         if (
-            "submitDiscover" in request.POST
+                "submitDiscover" in request.POST
         ):  # Discovery algorithms to produce process model file and png
             if discover_process_form.is_valid():
                 new_process_model = discover_process_form.save(
@@ -39,8 +41,8 @@ def process_discovery(request):
                 discovery_algorithm = new_process_model.process_model_algorithm
                 # Apply algorithm based on user selection and update model fields
                 if discovery_algorithm == settings.ALPHA_MINER:
-                    if discovery_algorithms.petri_net_discovery(
-                        logfile, process_model_name, settings.ALPHA_MINER
+                    if pm4py_discovery_algorithms.petri_net_discovery(
+                            logfile, process_model_name, settings.ALPHA_MINER
                     ):
                         messages.success(
                             request, "Process Model discovered successfully!"
@@ -51,8 +53,8 @@ def process_discovery(request):
                         )
                         redirect(redirect_url)
                 elif discovery_algorithm == settings.INDUCTIVE_MINER:
-                    if discovery_algorithms.petri_net_discovery(
-                        logfile, process_model_name, settings.INDUCTIVE_MINER
+                    if pm4py_discovery_algorithms.petri_net_discovery(
+                            logfile, process_model_name, settings.INDUCTIVE_MINER
                     ):
                         messages.success(
                             request, "Process Model discovered successfully!"
@@ -63,10 +65,10 @@ def process_discovery(request):
                         )
                         redirect(redirect_url)
                 new_process_model.process_model_file = (
-                    "process_models/" + process_model_name + ".pnml"
+                        "process_models/" + process_model_name + ".pnml"
                 )
                 new_process_model.process_model_image = (
-                    "exported_pngs/" + process_model_name + ".png"
+                        "exported_pngs/" + process_model_name + ".png"
                 )
                 # Save the process model
                 new_process_model.save()
@@ -208,5 +210,34 @@ def view_statistics(request):
         context["statistics_results"] = statistics_results
     if selected_event_log_id is not None:
         context["selected_event_log"] = selected_event_log
+
+    return render(request, template, context)
+
+
+@login_required(login_url="/accounts/login")
+def conformance_check(request):
+    """View to handle all conformance checking"""
+    template = "dashboard/conformance_check.html"
+    conformance_checks_list = []
+    conformance_checks_results = {}
+    context = {}
+
+    if request.method == "POST":
+        form = ConformanceCheckForm(request.POST)
+        if form.is_valid():
+            selected_event_log = form.cleaned_data["event_log"]
+            selected_process_model = form.cleaned_data["process_model"]
+            if settings.TOKEN_REPLAY in form.cleaned_data["conformance_checks"]:
+                conformance_checks_list.append(settings.TOKEN_REPLAY)
+            conformance_checks_results = pm4py_conformance_checks.perform_conformance_checks(
+                conformance_checks_list, selected_process_model, selected_event_log
+            )
+
+    else:
+        form = ConformanceCheckForm()
+
+    context["form"] = form
+    if conformance_checks_results:
+        context["results"] = conformance_checks_results
 
     return render(request, template, context)

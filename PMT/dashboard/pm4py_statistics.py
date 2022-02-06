@@ -1,18 +1,15 @@
 from datetime import datetime
 
 from django.conf import settings
-
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.util import interval_lifecycle
-
-from pm4py.statistics.sojourn_time.log import get as soj_time_get
-from pm4py.statistics.traces.generic.log import case_arrival, case_statistics
 from pm4py.statistics.concurrent_activities.log import get as conc_act_get
 from pm4py.statistics.eventually_follows.log import get as efg_get
-from pm4py.visualization.graphs import visualizer as graphs_visualizer
-
+from pm4py.statistics.sojourn_time.log import get as soj_time_get
+from pm4py.statistics.traces.generic.log import case_arrival, case_statistics
 from pm4py.util import constants
 from pm4py.util.business_hours import BusinessHours
+from pm4py.visualization.graphs import visualizer as graphs_visualizer
 
 from .models import EventLog
 
@@ -102,18 +99,23 @@ def calculate_cycle_time(log):
 
 def calculate_sojourn_time(log):
     """Function to calculate sojourn time"""
-    return soj_time_get.apply(log, parameters={
-        soj_time_get.Parameters.TIMESTAMP_KEY: "time:timestamp",
-        soj_time_get.Parameters.START_TIMESTAMP_KEY: "start_timestamp"
-    })
+    return soj_time_get.apply(
+        log,
+        parameters={
+            soj_time_get.Parameters.TIMESTAMP_KEY: "time:timestamp",
+            soj_time_get.Parameters.START_TIMESTAMP_KEY: "start_timestamp",
+        },
+    )
 
 
 def calculate_concurrent_activities(log):
     """Function to calculate concurrent activities"""
     return conc_act_get.apply(
         log,
-        parameters={conc_act_get.Parameters.TIMESTAMP_KEY: "time:timestamp",
-                    conc_act_get.Parameters.START_TIMESTAMP_KEY: "start_timestamp"}
+        parameters={
+            conc_act_get.Parameters.TIMESTAMP_KEY: "time:timestamp",
+            conc_act_get.Parameters.START_TIMESTAMP_KEY: "start_timestamp",
+        },
     )
 
 
@@ -126,10 +128,9 @@ def calculate_eventually_follows_graph(log):
 
 def calculate_distribution_case_duration_graph(log):
     """Function to calculate the distribution of case duration graph"""
-    x, y = case_statistics.get_kde_caseduration(log, parameters={
-        constants.PARAMETER_CONSTANT_TIMESTAMP_KEY: "time:timestamp"
-    })
+    x, y = case_statistics.get_kde_caseduration(
+        log, parameters={constants.PARAMETER_CONSTANT_TIMESTAMP_KEY: "time:timestamp"}
+    )
     gviz = graphs_visualizer.apply_plot(x, y, variant=graphs_visualizer.Variants.CASES)
     graphs_visualizer.save(gviz, "PMT/media/graphs")
     return
-

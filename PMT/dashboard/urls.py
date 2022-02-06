@@ -16,6 +16,7 @@ urlpatterns = [
     path("event_logs", views.event_logs, name="event_logs"),
     path("event_logs/delete/<int:pk>", views.delete_event_log, name="delete_event_log"),
     path("view_statistics", views.view_statistics, name="view_statistics"),
+    path("conformance_check", views.conformance_check, name="conformance_check"),
 ]
 
 if settings.DEBUG:

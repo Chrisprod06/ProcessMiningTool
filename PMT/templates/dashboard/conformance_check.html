@@ -18,11 +18,19 @@
         {% if results %}
             <div class="col-12">
                 {% for key, value in results.items %}
-
                     {{ key }}
-
-                    {{ value }}
-                   <br>
+                    {% if key == "token_replay_result" %}
+                        {% for trace in value %}
+                            <br>
+                            {{ forloop.counter }}
+                            {% for k,v in trace.items %}
+                                {{ k }}
+                                {{ v }}
+                                <br>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+                    <br>
                 {% endfor %}
             </div>
         {% endif %}

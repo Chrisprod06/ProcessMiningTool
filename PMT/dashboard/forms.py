@@ -1,4 +1,5 @@
 from django.forms import ModelForm
+from django import forms
 
 from .models import EventLog, ProcessModel
 
@@ -32,4 +33,7 @@ class DiscoverProcessModelForm(ModelForm):
             "process_model_algorithm",
         ]
 
-class ViewProcessModelForm()
+
+class ViewProcessModelForm(forms.Form):
+    """Form used for selecting process model"""
+    process_model = forms.ModelChoiceField(queryset=ProcessModel.objects.all())

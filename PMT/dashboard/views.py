@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
 from . import discovery_algorithms, pm4py_statistics
-from .forms import DiscoverProcessModelForm, EventLogForm, ProcessModelForm
+from .forms import DiscoverProcessModelForm, EventLogForm, ProcessModelForm, ViewProcessModelForm
 from .models import EventLog, ProcessModel
 
 
@@ -13,6 +13,8 @@ def index(request):
     """Function that renders dashboard homepage"""
     template = "dashboard/index.html"
     redirect_url = "/process_discovery"
+    context = {}
+    selected_process_model = None
     if request.method == "POST":
         discover_process_form = DiscoverProcessModelForm(
             request.POST
@@ -64,12 +66,18 @@ def index(request):
                 discover_process_form.save_m2m()
                 return redirect(redirect_url)
         if "submitRender" in request.POST:  # Get selected process model and return it
-            process_model_id = request.POST["process_model_id"]
-            selected_process_model = ProcessModel.objects.get(pk=process_model_id)
+            view_process_model_form = ViewProcessModelForm(request.POST)
+            if view_process_model_form.is_valid():
+                process_model_id = view_process_model_form.cleaned_data.get("process_model")
+                selected_process_model = ProcessModel.objects.get(pk=process_model_id)
     else:
         discover_process_form = DiscoverProcessModelForm()
         view_process_model_form = ViewProcessModelForm()
-    return render(request, template)
+    context["discover_process_form"] = discover_process_form
+    context["view_process_model_form"] = view_process_model_form
+    if selected_process_model is not None:
+        context["selected_process_model"] = selected_process_model
+    return render(request, template, context)
 
 
 @login_required(login_url="/accounts/login")

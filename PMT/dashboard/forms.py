@@ -31,3 +31,5 @@ class DiscoverProcessModelForm(ModelForm):
             "process_model_name",
             "process_model_algorithm",
         ]
+
+class ViewProcessModelForm()

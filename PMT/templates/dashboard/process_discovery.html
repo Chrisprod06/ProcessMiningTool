@@ -31,68 +31,11 @@
 
 </div>
 <!-- /.container-fluid -->
-{# Discover Process Modal Modal #}
-<div id="discover_process_model" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            {# Modal Header #}
-            <div class="modal-header">
-                <h4 class="modal-title">Discover a process model</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
 
-            {# Modal body #}
-            <div class="modal-body">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{discover_process_form|crispy}}
-            </div>
-            {# Modal footer #}
-            <div class="modal-footer">
-                <input type="submit" name="submitDiscover" id="submitDiscover" class="btn btn-success" value="Discover">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
 </div>
 
 
-{# Render Process Model Modal #}
-<div id="render_process_model" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            {# Modal Header #}
-            <div class="modal-header">
-                <h4 class="modal-title">Render a process model</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            {# Modal body #}
-            <div class="modal-body">
-                <form method="post" action="process_discovery">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="process_model_id">Select a process model:</label>
-                        <select class="form-control" name="process_model_id" id="process_model_id">
-                            <option value="none"></option>
-                            {% if process_models %}
-                            {% for model in process_models %}
-                            <option value="{{model.process_model_id}}">{{model.process_model_name}}</option>
-                            {% endfor %}
-                            {% endif %}
-                        </select>
-                    </div>
-            </div>
-            {# Modal footer #}
-            <div class="modal-footer">
-                <input type="submit" name="submitRender" id="submitRender" class="btn btn-success" value="Render">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
+
 <!-- End of Main Content -->
 
 {% endblock %}

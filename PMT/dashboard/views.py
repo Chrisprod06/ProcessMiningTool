@@ -11,23 +11,14 @@ from .models import EventLog, ProcessModel
 @login_required(login_url="/accounts/login")
 def index(request):
     """Function that renders dashboard homepage"""
-    return render(request, "dashboard/index.html")
-
-
-@login_required(login_url="/accounts/login")
-def process_discovery(request):
-    """Function for process discovery"""
-    process_models = ProcessModel.objects.all()
-    template = "dashboard/process_discovery.html"
+    template = "dashboard/index.html"
     redirect_url = "/process_discovery"
-    selected_process_model = None
-    context = {}
     if request.method == "POST":
         discover_process_form = DiscoverProcessModelForm(
             request.POST
         )  # Get form model instance
         if (
-            "submitDiscover" in request.POST
+                "submitDiscover" in request.POST
         ):  # Discovery algorithms to produce process model file and png
             if discover_process_form.is_valid():
                 new_process_model = discover_process_form.save(
@@ -40,7 +31,7 @@ def process_discovery(request):
                 # Apply algorithm based on user selection and update model fields
                 if discovery_algorithm == settings.ALPHA_MINER:
                     if discovery_algorithms.petri_net_discovery(
-                        logfile, process_model_name, settings.ALPHA_MINER
+                            logfile, process_model_name, settings.ALPHA_MINER
                     ):
                         messages.success(
                             request, "Process Model discovered successfully!"
@@ -52,7 +43,7 @@ def process_discovery(request):
                         redirect(redirect_url)
                 elif discovery_algorithm == settings.INDUCTIVE_MINER:
                     if discovery_algorithms.petri_net_discovery(
-                        logfile, process_model_name, settings.INDUCTIVE_MINER
+                            logfile, process_model_name, settings.INDUCTIVE_MINER
                     ):
                         messages.success(
                             request, "Process Model discovered successfully!"
@@ -63,10 +54,10 @@ def process_discovery(request):
                         )
                         redirect(redirect_url)
                 new_process_model.process_model_file = (
-                    "process_models/" + process_model_name + ".pnml"
+                        "process_models/" + process_model_name + ".pnml"
                 )
                 new_process_model.process_model_image = (
-                    "exported_pngs/" + process_model_name + ".png"
+                        "exported_pngs/" + process_model_name + ".png"
                 )
                 # Save the process model
                 new_process_model.save()
@@ -77,6 +68,19 @@ def process_discovery(request):
             selected_process_model = ProcessModel.objects.get(pk=process_model_id)
     else:
         discover_process_form = DiscoverProcessModelForm()
+        view_process_model_form = ViewProcessModelForm()
+    return render(request, template)
+
+
+@login_required(login_url="/accounts/login")
+def process_discovery(request):
+    """Function for process discovery"""
+    process_models = ProcessModel.objects.all()
+    template = "dashboard/process_discovery.html"
+
+    selected_process_model = None
+    context = {}
+
     context["discover_process_form"] = discover_process_form
     context["process_models"] = process_models
     if selected_process_model is not None:

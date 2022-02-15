@@ -13,6 +13,7 @@ from pm4py.visualization.petri_net import visualizer as pn_visualizer
 
 from .models import EventLog
 
+
 # Process discovery algorithms
 
 # Petri net
@@ -45,3 +46,8 @@ def petri_net_discovery(event_log_name, process_model_name, algorithm):
         net, initial_marking, "media/process_models/" + process_model_name + ".pnml"
     )
     return True
+
+
+def petri_net_to_bpmn(net, im, fm, process_model_name) -> bool:
+    """Function to convert petri net into bpmn"""
+    pass

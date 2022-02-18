@@ -81,22 +81,6 @@ def index(request):
 
 
 @login_required(login_url="/accounts/login")
-def process_discovery(request):
-    """Function for process discovery"""
-    process_models = ProcessModel.objects.all()
-    template = "dashboard/process_discovery.html"
-
-    selected_process_model = None
-    context = {}
-
-    context["discover_process_form"] = discover_process_form
-    context["process_models"] = process_models
-    if selected_process_model is not None:
-        context["selected_process_model"] = selected_process_model
-    return render(request, template, context)
-
-
-@login_required(login_url="/accounts/login")
 def view_process_models(request):
     """Function that renders view processes"""
     redirect_url = "/view_process_models"
@@ -136,7 +120,7 @@ def delete_process_model(request, pk):
 def event_logs(request):
     """Function for event logs management"""
     logs = EventLog.objects.all()
-    template = "dashboard/event_logs.html"
+    template = "dashboard/view_event_logs.html"
     context = {}
     if request.method == "POST":
         form = EventLogForm(request.POST, request.FILES)

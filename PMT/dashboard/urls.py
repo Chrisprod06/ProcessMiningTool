@@ -6,7 +6,6 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("process_discovery", views.process_discovery, name="process_discovery"),
     path("view_process_models", views.view_process_models, name="view_process_models"),
     path(
         "view_process_models/delete/<int:pk>",

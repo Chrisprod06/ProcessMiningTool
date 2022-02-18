@@ -16,12 +16,28 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            File
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#upload_event_log" data-toggle="modal">Upload Event
+                                Log</a>
+                            <a class="dropdown-item" href="#view_process_model" data-toggle="modal">Upload Process
+                                Model</a>
+                            <a class="dropdown-item" href="#view_process_model" data-toggle="modal">View Event Logs</a>
+                            <a class="dropdown-item" href="#view_process_model" data-toggle="modal">View Process
+                                Models</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Discovery
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#discover_process_model" data-toggle="modal">Discover New
                                 Model</a>
-                            <a class="dropdown-item" href="#render_process_model" data-toggle="modal">View Discovered Model</a>
+                            <a class="dropdown-item" href="#view_process_model" data-toggle="modal">View Discovered
+                                Model</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -81,40 +97,58 @@
     </div>
     {# Discover Process Modal Modal Start #}
 
-    {# Render Process Model Modal Start #}
-    <div id="render_process_model" class="modal fade">
+    {# View Process Model Modal Start #}
+    <div id="view_process_model" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 {# Modal Header #}
                 <div class="modal-header">
-                    <h4 class="modal-title">Render a process model</h4>
+                    <h4 class="modal-title">View a process model</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 {# Modal body #}
                 <div class="modal-body">
                     <form method="post" action="process_discovery">
                         {% csrf_token %}
-                        <div class="form-group">
-                            <label for="process_model_id">Select a process model:</label>
-                            <select class="form-control" name="process_model_id" id="process_model_id">
-                                <option value="none"></option>
-                                {% if process_models %}
-                                    {% for model in process_models %}
-                                        <option value="{{ model.process_model_id }}">{{ model.process_model_name }}</option>
-                                    {% endfor %}
-                                {% endif %}
-                            </select>
-                        </div>
+                        {{ view_process_model_form|crispy }}
                 </div>
                 {# Modal footer #}
                 <div class="modal-footer">
-                    <input type="submit" name="submitRender" id="submitRender" class="btn btn-success" value="Render">
+                    <input type="submit" name="submitRender" id="submitRender" class="btn btn-success" value="View">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
                 </form>
             </div>
         </div>
     </div>
-    {# Render Process Model Modal End #}
+    {# View Process Model Modal End #}
+
+    {# Upload Event Log Start #}
+    <div id="upload_event_log" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {# Modal Header #}
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload an Event Log</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                {# Modal body #}
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                </div>
+                {# Modal footer #}
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success" value="Upload">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {# Upload Event Log End #}
     {# Modals End #}
 {% endblock %}

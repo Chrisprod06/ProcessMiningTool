@@ -21,10 +21,10 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#upload_event_log" data-toggle="modal">Upload Event
                                 Log</a>
-                            <a class="dropdown-item" href="#view_process_model" data-toggle="modal">Upload Process
+                            <a class="dropdown-item" href="#upload_process_model" data-toggle="modal">Upload Process
                                 Model</a>
-                            <a class="dropdown-item" href="#view_process_model" data-toggle="modal">View Event Logs</a>
-                            <a class="dropdown-item" href="#view_process_model" data-toggle="modal">View Process
+                            <a class="dropdown-item" href="{% url 'view_event_logs' %}">View Event Logs</a>
+                            <a class="dropdown-item" href="{% url 'view_process_models' %}">View Process
                                 Models</a>
                         </div>
                     </li>
@@ -36,7 +36,8 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#discover_process_model" data-toggle="modal">Discover New
                                 Model</a>
-                            <a class="dropdown-item" href="#view_process_model" data-toggle="modal">View Discovered
+                            <a class="dropdown-item" href="#visualize_process_model" data-toggle="modal">Visualize
+                                Discovered
                                 Model</a>
                         </div>
                     </li>
@@ -58,7 +59,8 @@
                             Statistics
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Performance Dashboard</a>
+                            <a class="dropdown-item" href="#select_event_log" data-toggle="modal">Performance Dashboard</a>
+                            <a class="dropdown-item" href="#">Social Network Analysis</a>
                         </div>
                     </li>
                 </ul>
@@ -97,20 +99,47 @@
     </div>
     {# Discover Process Modal Modal Start #}
 
-    {# View Process Model Modal Start #}
-    <div id="view_process_model" class="modal fade">
+    {# Visualize Process Model Modal Start #}
+    <div id="visualize_process_model" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 {# Modal Header #}
                 <div class="modal-header">
-                    <h4 class="modal-title">View a process model</h4>
+                    <h4 class="modal-title">Visualize a process model</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 {# Modal body #}
                 <div class="modal-body">
-                    <form method="post" action="process_discovery">
+                    <form method="post">
                         {% csrf_token %}
                         {{ view_process_model_form|crispy }}
+                </div>
+                {# Modal footer #}
+                <div class="modal-footer">
+                    <input type="submit" name="submitVisualize" id="submitVisualize" class="btn btn-success"
+                           value="View">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {# Visualize Process Model Modal End #}
+
+    {# Upload Process Model Modal Start #}
+    <div id="upload_process_model" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {# Modal Header #}
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload a process model</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                {# Modal body #}
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ upload_process_model_form|crispy }}
                 </div>
                 {# Modal footer #}
                 <div class="modal-footer">
@@ -121,7 +150,7 @@
             </div>
         </div>
     </div>
-    {# View Process Model Modal End #}
+    {# Upload Process Model Modal End #}
 
     {# Upload Event Log Start #}
     <div id="upload_event_log" class="modal fade">
@@ -137,11 +166,11 @@
                 <div class="modal-body">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        {{ form|crispy }}
+                        {{ upload_event_log_form|crispy }}
                 </div>
                 {# Modal footer #}
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-success" value="Upload">
+                    <input type="submit" class="btn btn-success" name="submitUploadEventLog" value="Upload">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
                 </form>
@@ -150,5 +179,32 @@
     </div>
 
     {# Upload Event Log End #}
+
+    {# Select Event Log Start #}
+    <div id="select_event_log" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {# Modal Header #}
+                <div class="modal-header">
+                    <h4 class="modal-title">View Event Log Statistics</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                {# Modal body #}
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ select_event_log_form|crispy }}
+                </div>
+                {# Modal footer #}
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success" name="submitSelectEventLog" value="Select">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {# Select Event Log End #}
     {# Modals End #}
 {% endblock %}

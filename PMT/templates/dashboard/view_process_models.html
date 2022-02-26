@@ -9,13 +9,6 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Process Discovery</h1>
     </div>
-
-    <!-- Content Row -->
-
-    <div class="row mb-5">
-        <a href="#add_process_model" class="btn btn-success" data-toggle="modal">Add Process Model</a>
-    </div>
-
     {# Table presenting process models #}
     <table id="table_process_models" class="display">
         <thead>
@@ -69,36 +62,8 @@
 
         </tbody>
     </table>
-
 </div>
-<!-- /.container-fluid -->
-
-{# Upload Event log Modal #}
-<div id="add_process_model" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            {# Modal Header #}
-            <div class="modal-header">
-                <h4 class="modal-title">Upload a process model</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            {# Modal body #}
-            <div class="modal-body">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{form|crispy}}
-            </div>
-            {# Modal footer #}
-            <div class="modal-footer">
-                <input type="submit" class="btn btn-success" value="Upload">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            </div>
-            </form>
-        </div>
-    </div>
 </div>
-
 <!-- End of Main Content -->
 
 {% endblock %}

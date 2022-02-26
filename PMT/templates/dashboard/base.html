@@ -36,7 +36,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'index'%}">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'index' %}">
             <div class="sidebar-brand-text mx-3">Process Mining Tool</div>
         </a>
 
@@ -45,61 +45,9 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="{% url 'index'%}">
+            <a class="nav-link" href="{% url 'index' %}">
                 <i class="fas fa-home"></i>
                 <span>Home</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Data Handling
-        </div>
-
-        <!-- Nav Item - Charts -->
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'event_logs'%}">
-                <i class="fas fa-file-alt"></i>
-                <span>Event Logs</span></a>
-        </li>
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Process Handling
-        </div>
-
-        <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProcessDiscovery"
-               aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fab fa-cc-discover"></i>
-                <span>Process Discovery</span>
-            </a>
-            <div id="collapseProcessDiscovery" class="collapse" aria-labelledby="headingUtilities"
-                 data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="#">Discover a process</a>
-                    <a class="collapse-item" href="#">View process models</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Nav Item - Charts -->
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-clipboard-check"></i>
-                <span>Conformance Checking</span></a>
-        </li>
-
-        <!-- Nav Item - Tables -->
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'view_statistics' %}">
-                <i class="fas fa-chart-pie"></i>
-                <span>Statistics</span></a>
         </li>
 
         <!-- Divider -->
@@ -127,20 +75,6 @@
                     <i class="fa fa-bars"></i>
                 </button>
 
-                <!-- Topbar Search -->
-                <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                               aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
 
@@ -159,7 +93,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {% if user.is_authenticated %}
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.first_name}} {{user.last_name}}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.first_name }} {{ user.last_name }}</span>
                             {% endif %}
                             <img class="img-profile rounded-circle"
                                  src="{% static 'dashboard/img/undraw_profile.svg' %}">
@@ -194,7 +128,7 @@
 
             {% include "includes/messages.html" %}
             {% block content %}
-            {# content will go here #}
+                {# content will go here #}
             {% endblock %}
             <!-- Footer -->
             <footer class="sticky-footer bg-white">

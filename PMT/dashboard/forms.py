@@ -34,6 +34,26 @@ class DiscoverProcessModelForm(ModelForm):
         ]
 
 
-class ViewProcessModelForm(forms.Form):
+class CustomProcessModelModelChoiceField(forms.ModelChoiceField):
+    """Class to return text the name but value the id"""
+
+    def label_from_instance(self, object):
+        return object.process_model_name
+
+
+class SelectProcessModelForm(forms.Form):
     """Form used for selecting process model"""
-    process_model = forms.ModelChoiceField(queryset=ProcessModel.objects.all())
+
+    process_model = CustomProcessModelModelChoiceField(queryset=ProcessModel.objects.all())
+
+
+class CustomEventLogModelChoiceField(forms.ModelChoiceField):
+    """Class to return text the name but value the id"""
+
+    def label_from_instance(self, object):
+        return object.event_log_name
+
+
+class SelectEventLogForm(forms.Form):
+    """Form used for selecting event log"""
+    event_log = CustomEventLogModelChoiceField(queryset=EventLog.objects.all())

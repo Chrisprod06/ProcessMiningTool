@@ -53,8 +53,8 @@ class ProcessModel(models.Model):
         upload_to="exported_pngs", default="/PMT/media/produced_pngs/default.png"
     )
 
-    def __str__(self):
-        return self.process_model_name
+    def __int__(self):
+        return self.process_model_id
 
     def delete(self, *args, **kwargs):
         self.process_model_file.delete()

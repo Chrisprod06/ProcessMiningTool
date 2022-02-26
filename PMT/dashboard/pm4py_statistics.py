@@ -17,7 +17,7 @@ from pm4py.util.business_hours import BusinessHours
 from .models import EventLog
 
 
-def calculate_numeric_statistics(event_log_id, items) -> dict:
+def calculate_numeric_statistics(event_log_id) -> dict:
     """Function that calculates different statistics available in pm4py"""
     statistics_results = {}
     # Find log file path
@@ -28,32 +28,25 @@ def calculate_numeric_statistics(event_log_id, items) -> dict:
     # Import xes file
     event_log_file_object = xes_importer.apply(selected_event_log_path)
 
-    if settings.MEDIAN_CASE_DURATION in items:
-        statistics_results[
-            settings.MEDIAN_CASE_DURATION
-        ] = calculate_median_case_duration(event_log_file_object)
-    if settings.CASE_ARRIVAL_AVG in items:
-        statistics_results[settings.CASE_ARRIVAL_AVG] = calculate_case_arrival_ratio(
-            event_log_file_object
-        )
-    if settings.CASE_DISPERSION_RATIO in items:
-        statistics_results[
-            settings.CASE_DISPERSION_RATIO
-        ] = calculate_case_dispersion_ratio(event_log_file_object)
-    if settings.BUSINESS_HOURS in items:
-        statistics_results[settings.BUSINESS_HOURS] = calculate_business_hours(
-            event_log_file_object
-        )
-    if settings.CYCLE_TIME in items:
-        statistics_results[settings.CYCLE_TIME] = calculate_cycle_time(
-            event_log_file_object
-        )
-    if settings.SOJOURN_TIME in items:
-        statistics_results[settings.SOJOURN_TIME] = calculate_sojourn_time(
-            event_log_file_object
-        )
-    # Return the dictionary
+    # Calculate number of cases
 
+    # Calculate number of case variants
+
+    # Calculate activity instances
+
+    # Calculate number of activities
+
+    # Calculate case duration
+    # Min
+    # Median
+    # Average
+    # Max
+
+    #Calculate Log timeframe
+    # Start
+    # End
+
+    # Calculate
     return statistics_results
 
 
@@ -102,18 +95,23 @@ def calculate_cycle_time(log):
 
 def calculate_sojourn_time(log):
     """Function to calculate sojourn time"""
-    return soj_time_get.apply(log, parameters={
-        soj_time_get.Parameters.TIMESTAMP_KEY: "time:timestamp",
-        soj_time_get.Parameters.START_TIMESTAMP_KEY: "start_timestamp"
-    })
+    return soj_time_get.apply(
+        log,
+        parameters={
+            soj_time_get.Parameters.TIMESTAMP_KEY: "time:timestamp",
+            soj_time_get.Parameters.START_TIMESTAMP_KEY: "start_timestamp",
+        },
+    )
 
 
 def calculate_concurrent_activities(log):
     """Function to calculate concurrent activities"""
     return conc_act_get.apply(
         log,
-        parameters={conc_act_get.Parameters.TIMESTAMP_KEY: "time:timestamp",
-                    conc_act_get.Parameters.START_TIMESTAMP_KEY: "start_timestamp"}
+        parameters={
+            conc_act_get.Parameters.TIMESTAMP_KEY: "time:timestamp",
+            conc_act_get.Parameters.START_TIMESTAMP_KEY: "start_timestamp",
+        },
     )
 
 
@@ -126,9 +124,9 @@ def calculate_eventually_follows_graph(log):
 
 def calculate_distribution_case_duration_graph(log):
     """Function to calculate the distribution of case duration graph"""
-    x, y = case_statistics.get_kde_caseduration(log, parameters={
-        constants.PARAMETER_CONSTANT_TIMESTAMP_KEY: "time:timestamp"
-    })
+    x, y = case_statistics.get_kde_caseduration(
+        log, parameters={constants.PARAMETER_CONSTANT_TIMESTAMP_KEY: "time:timestamp"}
+    )
     gviz = graphs_visualizer.apply_plot(x, y, variant=graphs_visualizer.Variants.CASES)
     graphs_visualizer.save(gviz, "PMT/media/graphs")
     return

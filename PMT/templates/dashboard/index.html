@@ -137,7 +137,7 @@
                 </div>
                 {# Modal body #}
                 <div class="modal-body">
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ upload_process_model_form|crispy }}
                 </div>

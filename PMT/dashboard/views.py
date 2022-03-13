@@ -21,8 +21,12 @@ def index(request):
     redirect_url = "/process_discovery"
     context = {}
     selected_process_model = None
+    discover_process_form = DiscoverProcessModelForm()
+    select_process_model_form = SelectProcessModelForm()
+    upload_event_log_form = EventLogForm()
+    upload_process_model_form = ProcessModelForm()
+    select_event_log_form = SelectEventLogForm()
     if request.method == "POST":
-
         if (
                 "submitDiscover" in request.POST
         ):  # Discovery algorithms to produce process model file and png
@@ -81,33 +85,27 @@ def index(request):
                 selected_process_model_id = selected_process_model.process_model_id
                 return redirect("view_process_models/visualize/" + str(selected_process_model_id))
         if "submitUploadEventLog" in request.POST:
-            upload_event_log_form = EventLogForm(request.POST)
+            upload_event_log_form = EventLogForm(request.POST, request.FILES)
             if upload_event_log_form.is_valid():
                 if upload_event_log_form.save():
                     messages.success(request, "Event log added successfully!")
                 else:
                     messages.error(request, "Something went wrong! Please try again.")
-                return redirect("/event_logs")
+                return redirect("index")
         if "submitUploadProcessModel" in request.POST:
-            upload_process_model_form = ProcessModelForm(request.POST)
+            upload_process_model_form = ProcessModelForm(request.POST, request.FILES)
             if upload_process_model_form.is_valid():
                 if upload_process_model_form.save():
                     messages.success(request, "Process Model added successfully!")
                 else:
                     messages.error(request, "Something went wrong! Please try again!")
-                return redirect(redirect_url)
+                return redirect("")
         if "submitSelectEventLog" in request.POST:
             select_event_log_form = SelectEventLogForm(request.POST)
             if select_event_log_form.is_valid():
                 selected_event_log = select_event_log_form.cleaned_data.get("event_log")
                 selected_event_log_id = selected_event_log.event_log_id
                 return redirect("view_statistics/performance_dashboard/" + str(selected_event_log_id))
-    else:
-        discover_process_form = DiscoverProcessModelForm()
-        select_process_model_form = SelectProcessModelForm()
-        upload_event_log_form = EventLogForm()
-        upload_process_model_form = ProcessModelForm()
-        select_event_log_form = SelectEventLogForm()
 
     context["discover_process_form"] = discover_process_form
     context["select_process_model_form"] = select_process_model_form
